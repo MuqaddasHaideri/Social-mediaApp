@@ -42,6 +42,7 @@ export default function TabTwoScreen() {
         <ThemedText>
           You can open this project on Android, iOS, and the web. To open the web version, press{' '}
           <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
+          
         </ThemedText>
       </Collapsible>
       <Collapsible title="Images">
