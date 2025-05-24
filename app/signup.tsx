@@ -4,19 +4,24 @@ import { Colors } from '@/constants/Colors';
 import { FontAwesome, Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
+import { createUserWithEmailAndPassword, getAuth } from 'firebase/auth';
+import { doc, getFirestore, setDoc } from 'firebase/firestore';
 import React, { useState } from 'react';
 import {
-    ActivityIndicator,
-    Alert,
-    Dimensions,
-    StyleSheet,
-    TextInput,
-    TouchableOpacity,
-    View,
-    useColorScheme,
+  ActivityIndicator,
+  Alert,
+  Dimensions,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+  useColorScheme
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
-import { supabase } from '../lib/supabase';
+import { app } from '../firebase';
+
+const auth = getAuth(app);
+const db = getFirestore(app);
 
 const { width } = Dimensions.get('window');
 
@@ -31,41 +36,35 @@ const SignUp = () => {
   const appColors = Colors[colorScheme || 'light'];
   const insets = useSafeAreaInsets();
 
-  async function handleSignUp() {
+  
+  const handleSignUp = async () => {
     if (!email || !password || !name) {
       Alert.alert('Error', 'Please fill all fields');
       return;
     }
 
     setLoading(true);
+    
     try {
-      const { data, error } = await supabase.auth.signUp({
+ 
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+      await setDoc(doc(db, 'users', user.uid), {
+        name,
         email,
-        password,
-        options: {
-          data: {
-            full_name: name,
-          }
-        }
+        createdAt: new Date(),
       });
 
-      if (error) {
-        throw error;
-      }
-
-      if (!data.session) {
-        Alert.alert(
-          'Check your email',
-          'We sent you a confirmation email. Please verify your email address to complete registration.'
-        );
-        router.push('/login');
-      }
-    } catch (error:any) {
-      Alert.alert('Error', error.message);
+      Alert.alert('Success', 'Account created successfully!');
+      router.push('/login');
+    } catch (error: any) {
+      Alert.alert('Error', error.message || 'Failed to create account');
+      console.error('Signup error:', error);
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
     <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>

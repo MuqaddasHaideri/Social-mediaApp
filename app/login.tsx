@@ -4,16 +4,19 @@ import { Colors } from '@/constants/Colors';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { useTheme } from '@react-navigation/native';
 import { useRouter } from 'expo-router';
-import React from 'react';
+import { signInWithEmailAndPassword } from 'firebase/auth';
+import React, { useState } from 'react';
 import {
-    Dimensions,
-    StyleSheet,
-    TextInput,
-    TouchableOpacity,
-    View,
-    useColorScheme,
+  Alert,
+  Dimensions,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+  View,
+  useColorScheme,
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
+import { auth } from '../firebase';
 
 const { width } = Dimensions.get('window');
 
@@ -24,6 +27,29 @@ const Login = () => {
   const appColors = Colors[colorScheme || 'light'];
   const insets = useSafeAreaInsets();
 
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleLogin = async () => {
+    if (!email || !password) {
+      Alert.alert('Error', 'Please enter both email and password.');
+      return;
+    }
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      console.log('Logged in:', user.email);
+
+  
+      router.replace('/(tabs)');
+    } catch (error: any) {
+      console.error('Login error:', error);
+      Alert.alert('Login Failed', error.message);
+    }
+  };
+
   return (
     <ThemedView style={[styles.container, { backgroundColor: colors.background }]}>
       <View style={styles.content}>
@@ -31,7 +57,7 @@ const Login = () => {
           <ThemedText type="title" style={[styles.title, { color: colors.text }]}>
             Hey,
           </ThemedText>
-           <ThemedText type="title" style={[styles.title, { color: colors.text }]}>
+          <ThemedText type="title" style={[styles.title, { color: colors.text }]}>
             welcome back
           </ThemedText>
           <ThemedText style={[styles.subtitle, { color: appColors.smallText }]}>
@@ -40,35 +66,41 @@ const Login = () => {
         </View>
 
         <View style={styles.formContainer}>
-          <View style={[styles.inputContainer, { 
-         borderColor: appColors.borderColor,
-            backgroundColor: colors.card 
+          <View style={[styles.inputContainer, {
+            borderColor: appColors.borderColor,
+            backgroundColor: colors.card
           }]}>
-            <MaterialIcons 
-              name="email" 
-              size={20} 
-              color={appColors.smallText} 
-              style={styles.icon} 
+            <MaterialIcons
+              name="email"
+              size={20}
+              color={appColors.smallText}
+              style={styles.icon}
             />
             <TextInput
+              value={email}
+              onChangeText={setEmail}
+              autoCapitalize="none"
+              keyboardType="email-address"
               style={[styles.input, { color: colors.text }]}
               placeholder="Enter email"
               placeholderTextColor={appColors.smallText}
             />
           </View>
 
-          <View style={[styles.inputContainer, { 
-           borderColor: appColors.borderColor,
+          <View style={[styles.inputContainer, {
+            borderColor: appColors.borderColor,
             backgroundColor: colors.card,
-            marginTop: 16 
+            marginTop: 16
           }]}>
-            <Ionicons 
-              name="lock-closed" 
-              size={20} 
-              color={appColors.smallText} 
-              style={styles.icon} 
+            <Ionicons
+              name="lock-closed"
+              size={20}
+              color={appColors.smallText}
+              style={styles.icon}
             />
             <TextInput
+              value={password}
+              onChangeText={setPassword}
               style={[styles.input, { color: colors.text }]}
               placeholder="Password"
               placeholderTextColor={appColors.smallText}
@@ -87,7 +119,7 @@ const Login = () => {
       <View style={[styles.bottomContainer, { paddingBottom: insets.bottom + 30 }]}>
         <TouchableOpacity
           style={[styles.button, { backgroundColor: appColors.button }]}
-          onPress={() => router.push('/(tabs)')}
+          onPress={handleLogin}
         >
           <ThemedText type="defaultSemiBold" style={styles.buttonText}>
             Login
@@ -96,9 +128,7 @@ const Login = () => {
 
         <View style={styles.signupTextContainer}>
           <ThemedText style={styles.signupPrompt}>Don't have an account? </ThemedText>
-          <TouchableOpacity 
-          onPress={() => router.push('/signup')}
-          >
+          <TouchableOpacity onPress={() => router.push('/signup')}>
             <ThemedText style={[styles.signupLink, { color: appColors.button }]}>
               Sign up
             </ThemedText>
