@@ -16,6 +16,9 @@ import { useSafeAreaInsets } from 'react-native-safe-area-context';
 
 const { width, height } = Dimensions.get('window');
 
+
+
+
 const Welcome = () => {
   const router = useRouter();
   const { colors } = useTheme();
