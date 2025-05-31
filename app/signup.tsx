@@ -82,7 +82,7 @@ const SignUp = () => {
         </View>
 
         <View style={styles.formContainer}>
-          {/* Name Field */}
+       
           <View style={[styles.inputContainer, { 
             borderColor: appColors.borderColor,
             backgroundColor: colors.card 
@@ -103,7 +103,7 @@ const SignUp = () => {
             />
           </View>
 
-          {/* Email Field */}
+ 
           <View style={[styles.inputContainer, { 
             borderColor: appColors.borderColor,
             backgroundColor: colors.card,
@@ -126,7 +126,7 @@ const SignUp = () => {
             />
           </View>
 
-          {/* Password Field */}
+    
           <View style={[styles.inputContainer, { 
             borderColor: appColors.borderColor,
             backgroundColor: colors.card,
