@@ -105,20 +105,20 @@ export default function ExploreScreen() {
 
   const renderItem = ({ item }: { item: Post }) => (
     <View style={[styles.postContainer, { backgroundColor: colors.card }]}>
-    <View style={[styles.postContainer, { backgroundColor: colors.card }]}>
-  <View style={styles.postHeader}>
-    <View style={styles.userInfo}>
-      <View style={[styles.avatarCircle, { backgroundColor: appColors.button }]}>
-        <Text style={styles.avatarLetter}>
-          {(item.userName || item.userEmail || 'U')[0].toUpperCase()}
-        </Text>
+      <View style={[styles.postContainer, { backgroundColor: colors.card }]}>
+        <View style={styles.postHeader}>
+          <View style={styles.userInfo}>
+            <View style={[styles.avatarCircle, { backgroundColor: appColors.button }]}>
+              <Text style={styles.avatarLetter}>
+                {(item.userName || item.userEmail || 'U')[0].toUpperCase()}
+              </Text>
+            </View>
+            <Text style={[styles.username, { color: colors.text }]}>
+              {item.userName || item.userEmail?.split('@')[0] || 'Unknown user'}
+            </Text>
+          </View>
+        </View>
       </View>
-      <Text style={[styles.username, { color: colors.text }]}>
-        {item.userName || item.userEmail?.split('@')[0] || 'Unknown user'}
-      </Text>
-    </View>
-  </View>
-</View>
 
 
       <Image source={{ uri: item.imageUrl }} style={styles.postImage} resizeMode="cover" />
@@ -197,7 +197,7 @@ export default function ExploreScreen() {
         </View>
       )}
 
-  
+
       {activeCommentPost === item.id && (
         <View style={styles.addCommentContainer}>
           <TextInput
@@ -215,16 +215,16 @@ export default function ExploreScreen() {
             onChangeText={setCommentText}
             autoFocus
           />
-    <TouchableOpacity
-  onPress={() => handleAddComment(item.id)}
-  disabled={!commentText.trim()}
->
-  <Ionicons
-    name="send"
-    size={20}
-    color={commentText.trim() ? appColors.button : appColors.smallText}
-  />
-</TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => handleAddComment(item.id)}
+            disabled={!commentText.trim()}
+          >
+            <Ionicons
+              name="send"
+              size={20}
+              color={commentText.trim() ? appColors.button : appColors.smallText}
+            />
+          </TouchableOpacity>
 
         </View>
       )}
@@ -271,7 +271,7 @@ const styles = StyleSheet.create({
   },
   postContainer: {
     marginBottom: 6,
-    padding:9
+    padding: 9
   },
   postHeader: {
     flexDirection: 'row',
@@ -349,19 +349,19 @@ const styles = StyleSheet.create({
     fontSize: 14
   },
 
-avatarCircle: {
-  width: 32,
-  height: 32,
-  borderRadius: 16,
-  backgroundColor: '#888', 
-  justifyContent: 'center',
-  alignItems: 'center',
-  marginRight: 2,
-},
-avatarLetter: {
-  color: 'white',
-  fontWeight: 'bold',
-  fontSize: 16,
-},
+  avatarCircle: {
+    width: 32,
+    height: 32,
+    borderRadius: 16,
+    backgroundColor: '#888',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 2,
+  },
+  avatarLetter: {
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 16,
+  },
 
 });

@@ -5,6 +5,7 @@ export const Colors = {
   light: {
     background: '#FFFFFF',     // Light background color
     button: '#3696A6',         // Primary button color
+    buttonDisabled:"#24646E",
     text: '#323232',           // Large text color
     smallText: '#C9C9C9',      // Small/subtext color
     textField: '#F1F5F8',      // Text field background
@@ -17,6 +18,7 @@ export const Colors = {
   dark: {
     background: '#191C21',     // Dark background color
     button: '#3696A6',         // Primary button color
+    buttonDisabled:"#24646E",
     text: '#F5F6FF',           // General text color
     smallText: '#F5F6FF',      // Using same as main text for consistency
     textField: '#121214',      // Text field background

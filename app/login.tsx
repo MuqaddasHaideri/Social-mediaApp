@@ -8,17 +8,15 @@ import { signInWithEmailAndPassword } from 'firebase/auth';
 import React, { useState } from 'react';
 import {
   Alert,
-  Dimensions,
   StyleSheet,
   TextInput,
   TouchableOpacity,
   View,
-  useColorScheme,
+  useColorScheme
 } from 'react-native';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { auth } from '../firebase';
 
-const { width } = Dimensions.get('window');
 
 const Login = () => {
   const router = useRouter();
@@ -36,7 +34,6 @@ const Login = () => {
       Alert.alert('Error', 'Please enter both email and password.');
       return;
     }
-
     try {
       const userCredential = await signInWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -108,11 +105,7 @@ const Login = () => {
             />
           </View>
 
-          <TouchableOpacity style={styles.forgotPassword}>
-            <ThemedText style={[styles.forgotPasswordText, { color: appColors.button }]}>
-              Forgot password?
-            </ThemedText>
-          </TouchableOpacity>
+      
         </View>
       </View>
 
