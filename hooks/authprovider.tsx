@@ -7,11 +7,10 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 const AuthContext = createContext<{
   user: User | null;
   loading: boolean;
-   logout: () => Promise<void>;
+
 }>({
   user: null,
   loading: true,
-    logout: async () => {},
 });
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
@@ -52,7 +51,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
   return (
-    <AuthContext.Provider value={{ user, loading,logout }}>
+    <AuthContext.Provider value={{ user, loading }}>
       {children}
     </AuthContext.Provider>
   );
